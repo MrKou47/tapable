@@ -63,18 +63,52 @@ var tap = new Tapable();
 /**
  * applyPluginsAsyncSeries
  * applyPluginsAsync
- * 
+ * 异步执行所有注册事件
+ * function applyPluginsAsyncSeries1(name, param, callback)
+ */
+
+tap.plugin('eat', function (cb) {
+  cb(null);
+});
+
+tap.plugin('eat', function (cb) {
+  cb(null);
+});
+
+
+/**
+ * applyPluginsAsyncSeriesBailResult
+ * applyPluginsAsyncSeriesBailResult1
+ * if(arguments.length > 0) return callback.apply(null, arguments);
+ * 如果某一次对于注册事件的 callback() 调用含有参数，则不触发其余的 callback
  */
 
 
-tap.plugin('eat', function (cb) {
-  cb(null, 'first result');
-});
+// tap.applyPluginsAsyncSeriesBailResult('eat', function (args) {
+//   // some code
+// });
 
-tap.plugin('eat', function (cb) {
-  cb(null, 'final result');
-});
+/**
+ * applyPluginsParallel
+ * 并行执行含有回调的注册事件
+ */
 
-tap.applyPluginsAsync('eat', function (err, result) {
-  console.log(err, result);
+// tap.applyPluginsParallel('eat', function () {
+//   console.log(arguments);
+// });
+
+/**
+ * applyPluginsParallelBailResult
+ * applyPluginsParallelBailResult1
+ * 没看到有用到的地方
+ * 
+ * 每一次执行 callback 的时候 如果包含 参数 则 触发一次注册的回调
+ * 				if(done.length === currentPos) {
+					callback.apply(null, currentResult);
+					currentPos = 0;
+				}
+ */
+
+tap.applyPluginsParallelBailResult('eat', function () {
+  console.log(arguments);
 });
